@@ -4,8 +4,12 @@ const Student = require('../models/Student');
 // @route   GET /api/students
 // @access  Private
 const getStudents = async (req, res) => {
-    const students = await Student.find();
-    res.status(200).json(students);
+    try {
+        const students = await Student.find();
+        res.status(200).json(students);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 // @desc    Set student
@@ -13,54 +17,66 @@ const getStudents = async (req, res) => {
 // @access  Private/Admin
 const setStudent = async (req, res) => {
     if (!req.body.name || !req.body.rollNumber) {
-        res.status(400).json({ message: 'Please add required fields' });
-        return;
+        res.status(400);
+        throw new Error('Please add required fields');
     }
 
-    const student = await Student.create({
-        name: req.body.name,
-        rollNumber: req.body.rollNumber,
-        email: req.body.email,
-        phone: req.body.phone,
-        course: req.body.course,
-        year: req.body.year
-    });
-
-    res.status(200).json(student);
+    try {
+        const student = await Student.create({
+            name: req.body.name,
+            rollNumber: req.body.rollNumber,
+            email: req.body.email,
+            phone: req.body.phone,
+            course: req.body.course,
+            year: req.body.year
+        });
+        res.status(200).json(student);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 };
 
 // @desc    Update student
 // @route   PUT /api/students/:id
 // @access  Private/Admin
 const updateStudent = async (req, res) => {
-    const student = await Student.findById(req.params.id);
+    try {
+        const student = await Student.findById(req.params.id);
 
-    if (!student) {
-        res.status(400).json({ message: 'Student not found' });
-        return;
+        if (!student) {
+            res.status(400);
+            throw new Error('Student not found');
+        }
+
+        const updatedStudent = await Student.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        res.status(200).json(updatedStudent);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
-
-    const updatedStudent = await Student.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-    });
-
-    res.status(200).json(updatedStudent);
 };
 
 // @desc    Delete student
 // @route   DELETE /api/students/:id
 // @access  Private/Admin
 const deleteStudent = async (req, res) => {
-    const student = await Student.findById(req.params.id);
+    try {
+        const student = await Student.findById(req.params.id);
 
-    if (!student) {
-        res.status(400).json({ message: 'Student not found' });
-        return;
+        if (!student) {
+            res.status(400);
+            throw new Error('Student not found');
+        }
+
+        await student.deleteOne();
+        res.status(200).json({ id: req.params.id });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
-
-    await student.deleteOne();
-
-    res.status(200).json({ id: req.params.id });
 };
 
 module.exports = {

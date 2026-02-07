@@ -38,7 +38,9 @@ const Login = () => {
                 toast.success('Logged in successfully');
             }
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Login failed');
+            const message = error.response?.data?.message
+                || (error.message === 'Network Error' ? 'Backend not running? Check server.' : 'Login failed');
+            toast.error(message);
         }
     };
 

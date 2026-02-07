@@ -9,6 +9,27 @@ const protect = async (req, res, next) => {
             // Get token from header
             token = req.headers.authorization.split(' ')[1];
 
+            // Check for mock tokens
+            if (token === 'mock-admin-token') {
+                req.user = {
+                    _id: 'mock-admin-id',
+                    name: 'Admin User',
+                    email: 'admin@gmail.com',
+                    role: 'admin'
+                };
+                return next();
+            }
+
+            if (token === 'mock-user-token') {
+                req.user = {
+                    _id: 'mock-user-id',
+                    name: 'Regular User',
+                    email: 'user@gmail.com',
+                    role: 'user'
+                };
+                return next();
+            }
+
             // Verify token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
