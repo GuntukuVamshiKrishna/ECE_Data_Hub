@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import AuthContext from '../context/AuthContext';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaFileAlt } from 'react-icons/fa';
 
 const UserDashboard = () => {
     const { user } = useContext(AuthContext);
@@ -82,6 +82,7 @@ const UserDashboard = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Documents</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
@@ -97,11 +98,20 @@ const UserDashboard = () => {
                                             <div>{student.email}</div>
                                             <div className="text-xs">{student.phone}</div>
                                         </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {student.documentLink ? (
+                                                <a href={student.documentLink} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 flex items-center gap-1" title="Open Document">
+                                                    <FaFileAlt size={18} /> <span className="text-xs">Open</span>
+                                                </a>
+                                            ) : (
+                                                <span className="text-gray-300">-</span>
+                                            )}
+                                        </td>
                                     </tr>
                                 ))}
                                 {filteredStudents.length === 0 && (
                                     <tr>
-                                        <td colSpan="5" className="px-6 py-4 text-center text-gray-500">No students found</td>
+                                        <td colSpan="6" className="px-6 py-4 text-center text-gray-500">No students found</td>
                                     </tr>
                                 )}
                             </tbody>

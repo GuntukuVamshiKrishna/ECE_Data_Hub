@@ -32,45 +32,41 @@ const seedUsers = async () => {
         // await User.deleteMany({}); // Clear old users - DISABLED to save data
 
         // Check for Admin
-        const adminExists = await User.findOne({ email: 'admin@gmail.com' });
+        const adminExists = await User.findOne({ email: 'admin@institute.ece' });
         if (!adminExists) {
-            // Only create if NOT exists (Safety check)
-            /*
             const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash('Admin@123', salt);
+            const hashedPassword = await bcrypt.hash('Faculty@123', salt);
             await User.create({
-                name: 'Admin User',
-                email: 'admin@gmail.com',
+                name: 'Faculty Admin',
+                email: 'admin@institute.ece',
                 password: hashedPassword,
                 role: 'admin'
             });
-            console.log('Admin account created: admin@gmail.com / Admin@123');
-            */
+            console.log('Admin account created: admin@institute.ece / Faculty@123');
+        } else {
             console.log('Admin already exists. Skipping seed.');
         }
 
         // Check for User
-        const userExists = await User.findOne({ email: 'user@gmail.com' });
+        const userExists = await User.findOne({ email: 'student@institute.ece' });
         if (!userExists) {
-            // Only create if NOT exists (Safety check)
-            /*
-           const salt = await bcrypt.genSalt(10);
-           const hashedPassword = await bcrypt.hash('User@123', salt);
-           await User.create({
-               name: 'Regular User',
-               email: 'user@gmail.com',
-               password: hashedPassword,
-               role: 'user'
-           });
-           console.log('User account created: user@gmail.com / User@123');
-           */
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash('Student@123', salt);
+            await User.create({
+                name: 'Student User',
+                email: 'student@institute.ece',
+                password: hashedPassword,
+                role: 'user'
+            });
+            console.log('User account created: student@institute.ece / Student@123');
+        } else {
             console.log('User already exists. Skipping seed.');
         }
     } catch (error) {
         console.error("Seeding error:", error.message);
     }
 };
-// seedUsers(); // seeding disabled to preserve data
+seedUsers();
 
 const PORT = process.env.PORT || 5000;
 

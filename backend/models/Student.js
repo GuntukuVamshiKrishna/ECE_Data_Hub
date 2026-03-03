@@ -25,6 +25,10 @@ const studentSchema = mongoose.Schema({
     year: {
         type: String,
         required: [true, 'Please add a year']
+    },
+    documentLink: {
+        type: String,
+        required: false
     }
 }, {
     timestamps: true

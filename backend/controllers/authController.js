@@ -54,7 +54,9 @@ const registerUser = async (req, res) => {
 // @access  Public
 const loginUser = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        let { email, password } = req.body;
+        email = email.trim().toLowerCase();
+        password = password.trim();
 
         // Check for user email
         const user = await User.findOne({ email });

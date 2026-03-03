@@ -28,7 +28,8 @@ const setStudent = async (req, res) => {
             email: req.body.email,
             phone: req.body.phone,
             course: req.body.course,
-            year: req.body.year
+            year: req.body.year,
+            documentLink: req.body.documentLink
         });
         res.status(200).json(student);
     } catch (error) {

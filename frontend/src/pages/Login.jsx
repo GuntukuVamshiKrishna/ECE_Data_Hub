@@ -87,8 +87,8 @@ const Login = () => {
                     </button>
                 </form>
                 <div className="mt-6 text-center text-sm text-gray-500">
-                    {/* <p>Default Admin: admin@gmail.com / Admin@123</p>
-                    <p>Default User: user@gmail.com / User@123</p> */}
+                    <p>Faculty Admin Login: admin@institute.ece / Faculty@123</p>
+                    <p>Student Login: student@institute.ece / Student@123</p>
                 </div>
             </div>
         </div>
