@@ -35,7 +35,7 @@ A MERN stack web application for elctronics and communication engineering studen
    npm run dev
    ```
 
-   The frontend will run on `http://localhost:5173` and the backend on `https://ece-data-hub-backend.onrender.com`.
+   The frontend will run on `http://localhost:5173` and the backend on `https://localhost:5000`.
 
 ## Test Credentials
 The database automatically seeds itself with test accounts upon startup. You can use these to test the application immediately:
