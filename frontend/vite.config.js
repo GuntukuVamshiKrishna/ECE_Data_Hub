@@ -7,7 +7,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'https://ece-data-hub-backend.onrender.com',
+                target: 'https://localhost:5000',
                 changeOrigin: true,
                 secure: false
             }
