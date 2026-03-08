@@ -86,7 +86,10 @@ const Login = () => {
                         Sign In
                     </button>
                 </form>
-
+                <div className="mt-6 text-center text-sm text-gray-500">
+                    {/* <p>Faculty Admin Login: admin@institute.ece / Faculty@123</p>
+                    <p>Student Login: student@institute.ece / Student@123</p> */}
+                </div>
             </div>
         </div>
     );
