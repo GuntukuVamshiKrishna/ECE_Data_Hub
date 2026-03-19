@@ -9,6 +9,7 @@ import UserProjects from './pages/UserProjects';
 import AdminStudents from './pages/AdminStudents';
 import UserStudents from './pages/UserStudents';
 import { AuthProvider } from './context/AuthContext';
+import { DataProvider } from './context/DataContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
         <>
             <Router>
                 <AuthProvider>
-                    <div className="container mx-auto">
+                    <DataProvider>
+                        <div className="container mx-auto">
                         <Routes>
                             <Route path="/" element={<Navigate to="/login" />} />
                             <Route path="/login" element={<Login />} />
@@ -60,6 +62,7 @@ function App() {
 
                         </Routes>
                     </div>
+                    </DataProvider>
                 </AuthProvider>
             </Router>
             <ToastContainer />

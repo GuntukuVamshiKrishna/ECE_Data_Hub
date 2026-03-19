@@ -4,11 +4,12 @@ import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import AuthContext from '../context/AuthContext';
+import DataContext from '../context/DataContext';
 import { FaPlus, FaTrash, FaEdit, FaSearch, FaFileAlt, FaUsers, FaTimes } from 'react-icons/fa';
 
 const AdminProjects = () => {
     const { user } = useContext(AuthContext);
-    const [projects, setProjects] = useState([]);
+    const { projects, fetchProjects } = useContext(DataContext);
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -35,26 +36,12 @@ const AdminProjects = () => {
     };
 
     useEffect(() => {
-        fetchProjects();
-    }, []);
-
-    useEffect(() => {
         const results = projects.filter(project =>
             project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             project.students.some(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()) || s.rollNumber.toLowerCase().includes(searchTerm.toLowerCase()))
         );
         setFilteredProjects(results);
     }, [searchTerm, projects]);
-
-    const fetchProjects = async () => {
-        try {
-            const response = await axios.get('/api/projects', config);
-            setProjects(response.data);
-            setFilteredProjects(response.data);
-        } catch (error) {
-            toast.error('Error fetching projects');
-        }
-    };
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

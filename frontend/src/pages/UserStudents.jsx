@@ -4,11 +4,12 @@ import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import AuthContext from '../context/AuthContext';
+import DataContext from '../context/DataContext';
 import { FaSearch, FaFileAlt } from 'react-icons/fa';
 
 const UserStudents = () => {
     const { user } = useContext(AuthContext);
-    const [students, setStudents] = useState([]);
+    const { students } = useContext(DataContext);
     const [filteredStudents, setFilteredStudents] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -19,26 +20,12 @@ const UserStudents = () => {
     };
 
     useEffect(() => {
-        fetchStudents();
-    }, []);
-
-    useEffect(() => {
         const results = students.filter(student =>
             student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             student.rollNumber.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredStudents(results);
     }, [searchTerm, students]);
-
-    const fetchStudents = async () => {
-        try {
-            const response = await axios.get('/api/students', config);
-            setStudents(response.data);
-            setFilteredStudents(response.data);
-        } catch (error) {
-            toast.error('Error fetching students');
-        }
-    };
 
     return (
         <div className="flex bg-gray-100 min-h-screen">

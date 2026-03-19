@@ -4,11 +4,12 @@ import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import AuthContext from '../context/AuthContext';
+import DataContext from '../context/DataContext';
 import { FaSearch, FaFileAlt, FaUsers, FaTimes } from 'react-icons/fa';
 
 const UserProjects = () => {
     const { user } = useContext(AuthContext);
-    const [projects, setProjects] = useState([]);
+    const { projects } = useContext(DataContext);
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -24,26 +25,12 @@ const UserProjects = () => {
     };
 
     useEffect(() => {
-        fetchProjects();
-    }, []);
-
-    useEffect(() => {
         const results = projects.filter(project =>
             project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             project.students.some(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()) || s.rollNumber.toLowerCase().includes(searchTerm.toLowerCase()))
         );
         setFilteredProjects(results);
     }, [searchTerm, projects]);
-
-    const fetchProjects = async () => {
-        try {
-            const response = await axios.get('/api/projects', config);
-            setProjects(response.data);
-            setFilteredProjects(response.data);
-        } catch (error) {
-            toast.error('Error fetching projects');
-        }
-    };
 
     const openStudentsModal = (project) => {
         // Sort students by roll number

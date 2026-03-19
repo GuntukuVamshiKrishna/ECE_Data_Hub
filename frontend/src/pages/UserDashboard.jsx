@@ -4,30 +4,12 @@ import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import AuthContext from '../context/AuthContext';
+import DataContext from '../context/DataContext';
 import { FaGraduationCap } from 'react-icons/fa';
 
 const UserDashboard = () => {
     const { user } = useContext(AuthContext);
-    const [students, setStudents] = useState([]);
-
-    const config = {
-        headers: {
-            Authorization: `Bearer ${user.token}`,
-        },
-    };
-
-    useEffect(() => {
-        fetchStudents();
-    }, []);
-
-    const fetchStudents = async () => {
-        try {
-            const response = await axios.get('/api/students', config);
-            setStudents(response.data);
-        } catch (error) {
-            toast.error('Error fetching students');
-        }
-    };
+    const { students } = useContext(DataContext);
 
     return (
         <div className="flex bg-gray-100 min-h-screen">

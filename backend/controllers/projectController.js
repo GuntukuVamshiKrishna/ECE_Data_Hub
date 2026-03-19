@@ -5,7 +5,7 @@ const Project = require('../models/Project');
 // @access  Private
 const getProjects = async (req, res) => {
     try {
-        let projects = await Project.find();
+        let projects = await Project.find().lean();
         res.status(200).json(projects);
     } catch (error) {
         res.status(500).json({ message: error.message });

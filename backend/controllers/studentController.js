@@ -5,7 +5,7 @@ const Student = require('../models/Student');
 // @access  Private
 const getStudents = async (req, res) => {
     try {
-        let students = await Student.find();
+        let students = await Student.find().lean();
         
         students.sort((a, b) => {
             // Sort by Year Descending
