@@ -5,7 +5,24 @@ const Student = require('../models/Student');
 // @access  Private
 const getStudents = async (req, res) => {
     try {
-        const students = await Student.find();
+        let students = await Student.find();
+        
+        students.sort((a, b) => {
+            // Sort by Year Descending
+            const yearA = parseInt(a.year) || 0;
+            const yearB = parseInt(b.year) || 0;
+            
+            if (yearA !== yearB) {
+                return yearB - yearA;
+            }
+            
+            // Sort by Roll Number Ascending
+            const rollA = String(a.rollNumber || '').trim();
+            const rollB = String(b.rollNumber || '').trim();
+            
+            return rollA.localeCompare(rollB, undefined, { numeric: true });
+        });
+
         res.status(200).json(students);
     } catch (error) {
         res.status(500).json({ message: error.message });

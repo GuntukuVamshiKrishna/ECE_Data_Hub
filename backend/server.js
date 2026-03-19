@@ -22,6 +22,7 @@ app.use(cors({
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/students', require('./routes/studentRoutes'));
+app.use('/api/projects', require('./routes/projectRoutes'));
 
 // Seed Admin and User
 const User = require('./models/User');

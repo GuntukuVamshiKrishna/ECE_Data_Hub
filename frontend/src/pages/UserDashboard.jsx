@@ -4,13 +4,11 @@ import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import AuthContext from '../context/AuthContext';
-import { FaSearch, FaFileAlt } from 'react-icons/fa';
+import { FaGraduationCap } from 'react-icons/fa';
 
 const UserDashboard = () => {
     const { user } = useContext(AuthContext);
     const [students, setStudents] = useState([]);
-    const [filteredStudents, setFilteredStudents] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
 
     const config = {
         headers: {
@@ -22,19 +20,10 @@ const UserDashboard = () => {
         fetchStudents();
     }, []);
 
-    useEffect(() => {
-        const results = students.filter(student =>
-            student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            student.rollNumber.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredStudents(results);
-    }, [searchTerm, students]);
-
     const fetchStudents = async () => {
         try {
             const response = await axios.get('/api/students', config);
             setStudents(response.data);
-            setFilteredStudents(response.data);
         } catch (error) {
             toast.error('Error fetching students');
         }
@@ -43,79 +32,34 @@ const UserDashboard = () => {
     return (
         <div className="flex bg-gray-100 min-h-screen">
             <Sidebar role="user" />
-            <div className="flex-1 ml-64">
-                <Navbar title="Student Directory (Read Only)" />
-                <div className="p-8">
+            <div className="flex-1 ml-0 md:ml-64 w-full overflow-hidden">
+                <Navbar title="Student Dashboard" />
+                <div className="p-4 md:p-8 overflow-y-auto">
+                    {/* Welcome Text */}
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-bold text-gray-800">Welcome back, Student!</h1>
+                        <p className="text-gray-600 mt-2">Here is your quick overview of the data hub.</p>
+                    </div>
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500">
-                            <h3 className="text-gray-500 text-sm font-medium">Total Students</h3>
-                            <p className="text-3xl font-bold text-gray-800 mt-2">{students.length}</p>
+                        <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500 hover:shadow-lg transition-shadow">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-gray-500 text-sm font-medium">Total Enrolled Students</h3>
+                                    <p className="text-3xl font-bold text-gray-800 mt-2">{students.length}</p>
+                                </div>
+                                <FaGraduationCap className="text-indigo-500 text-4xl opacity-50" />
+                            </div>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500 hover:shadow-lg transition-shadow">
                             <h3 className="text-gray-500 text-sm font-medium">Welcome</h3>
-                            <p className="text-lg text-gray-600 mt-2">Browse the student directory below.</p>
+                            <p className="text-lg text-gray-600 mt-2">Use the side menu to view the full directories.</p>
                         </div>
                     </div>
-
-                    {/* Search */}
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-                        <div className="relative w-full md:w-96 mb-4 md:mb-0">
-                            <FaSearch className="absolute left-3 top-3 text-gray-400" />
-                            <input
-                                type="text"
-                                placeholder="Search by Name or Roll Number..."
-                                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Table */}
-                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll No</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Documents</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {filteredStudents.map((student) => (
-                                    <tr key={student._id} className="hover:bg-gray-50">
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="font-medium text-gray-900">{student.name}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.rollNumber}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.course}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.year}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <div>{student.email ? student.email.split('@')[0].slice(0, 2) + '****@' + (student.email.split('@')[1] || '') : ''}</div>
-                                            <div className="text-xs">{student.phone ? '******' + student.phone.slice(-4) : ''}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {student.documentLink ? (
-                                                <a href={student.documentLink} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 flex items-center gap-1" title="Open Document">
-                                                    <FaFileAlt size={18} /> <span className="text-xs">Open</span>
-                                                </a>
-                                            ) : (
-                                                <span className="text-gray-300">-</span>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                                {filteredStudents.length === 0 && (
-                                    <tr>
-                                        <td colSpan="6" className="px-6 py-4 text-center text-gray-500">No students found</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
+                    
+                    {/* Placeholder */}
+                    <div className="bg-white rounded-lg shadow-md p-6 h-64 flex flex-col items-center justify-center border border-gray-100">
+                        <p className="text-gray-500 font-medium">Navigate to the Students or Projects section to view detailed lists.</p>
                     </div>
                 </div>
             </div>
