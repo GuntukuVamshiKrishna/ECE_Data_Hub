@@ -22,9 +22,9 @@ const studentSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please add a course']
     },
-    year: {
+    batch: {
         type: String,
-        required: [true, 'Please add a year']
+        required: [true, 'Please add a batch']
     },
     documentLink: {
         type: String,

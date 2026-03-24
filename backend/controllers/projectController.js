@@ -25,6 +25,7 @@ const createProject = async (req, res) => {
         const project = await Project.create({
             title: req.body.title,
             students: req.body.students,
+            batch: req.body.batch,
             documentLink: req.body.documentLink || ''
         });
         res.status(200).json(project);

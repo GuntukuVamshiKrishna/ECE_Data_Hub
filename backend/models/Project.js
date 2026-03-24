@@ -11,6 +11,10 @@ const projectSchema = mongoose.Schema({
             rollNumber: { type: String, required: true }
         }
     ],
+    batch: {
+        type: String,
+        required: [true, 'Please add a batch (e.g., 2022-2026)']
+    },
     documentLink: {
         type: String,
         required: false

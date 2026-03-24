@@ -55,7 +55,7 @@ const UserStudents = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll No</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Batch</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Documents</th>
                                 </tr>
@@ -68,7 +68,7 @@ const UserStudents = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.rollNumber}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.course}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.year}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.batch}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <div>{student.email ? student.email.split('@')[0].slice(0, 2) + '****@' + (student.email.split('@')[1] || '') : ''}</div>
                                             <div className="text-xs">{student.phone ? '******' + student.phone.slice(-4) : ''}</div>

@@ -8,12 +8,12 @@ const getStudents = async (req, res) => {
         let students = await Student.find().lean();
         
         students.sort((a, b) => {
-            // Sort by Year Descending
-            const yearA = parseInt(a.year) || 0;
-            const yearB = parseInt(b.year) || 0;
+            // Sort by Batch Ascending (e.g. 2022-2026 comes before 2023-2027)
+            const batchA = String(a.batch || '').trim();
+            const batchB = String(b.batch || '').trim();
             
-            if (yearA !== yearB) {
-                return yearB - yearA;
+            if (batchA !== batchB) {
+                return batchA.localeCompare(batchB);
             }
             
             // Sort by Roll Number Ascending
@@ -45,7 +45,7 @@ const setStudent = async (req, res) => {
             email: req.body.email,
             phone: req.body.phone,
             course: req.body.course,
-            year: req.body.year,
+            batch: req.body.batch,
             documentLink: req.body.documentLink
         });
         res.status(200).json(student);

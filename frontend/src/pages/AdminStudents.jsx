@@ -22,7 +22,7 @@ const AdminStudents = () => {
         email: '',
         phone: '',
         course: '',
-        year: '',
+        batch: '',
         documentLink: ''
     });
 
@@ -83,7 +83,7 @@ const AdminStudents = () => {
             email: student.email,
             phone: student.phone,
             course: student.course,
-            year: student.year,
+            batch: student.batch,
             documentLink: student.documentLink || ''
         });
         setCurrentId(student._id);
@@ -98,7 +98,7 @@ const AdminStudents = () => {
             email: '',
             phone: '',
             course: '',
-            year: '',
+            batch: '',
             documentLink: ''
         });
         setIsEdit(false);
@@ -139,7 +139,7 @@ const AdminStudents = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll No</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Batch</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Documents</th>
                                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -153,7 +153,7 @@ const AdminStudents = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.rollNumber}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.course}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.year}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.batch}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <div>{student.email}</div>
                                             <div className="text-xs">{student.phone}</div>
@@ -216,8 +216,8 @@ const AdminStudents = () => {
                                     <input required name="course" value={formData.course} onChange={handleInputChange} className="w-full border rounded px-3 py-2" />
                                 </div>
                                 <div className="mb-4">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2">Year</label>
-                                    <input required name="year" value={formData.year} onChange={handleInputChange} className="w-full border rounded px-3 py-2" />
+                                    <label className="block text-gray-700 text-sm font-bold mb-2">Batch (e.g. 2022-2026)</label>
+                                    <input required name="batch" value={formData.batch} onChange={handleInputChange} className="w-full border rounded px-3 py-2" />
                                 </div>
                                 <div className="mb-4 col-span-2">
                                     <label className="block text-gray-700 text-sm font-bold mb-2">Document Link (Google Drive)</label>

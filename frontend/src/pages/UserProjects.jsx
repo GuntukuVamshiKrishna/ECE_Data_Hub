@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import AuthContext from '../context/AuthContext';
 import DataContext from '../context/DataContext';
-import { FaSearch, FaFileAlt, FaUsers, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaFileAlt, FaUsers, FaTimes, FaFolder } from 'react-icons/fa';
 
 const UserProjects = () => {
     const { user } = useContext(AuthContext);
@@ -44,6 +44,15 @@ const UserProjects = () => {
         setShowStudentsModal(true);
     };
 
+    const groupedProjects = filteredProjects.reduce((acc, project) => {
+        const batch = project.batch || 'Uncategorized';
+        if (!acc[batch]) acc[batch] = [];
+        acc[batch].push(project);
+        return acc;
+    }, {});
+
+    const sortedBatches = Object.keys(groupedProjects).sort((a, b) => a.localeCompare(b));
+
     return (
         <div className="flex bg-gray-100 min-h-screen">
             <Sidebar role="user" />
@@ -72,49 +81,58 @@ const UserProjects = () => {
                         </div>
                     </div>
 
-                    {/* Table */}
-                    <div className="bg-white rounded-lg shadow-md overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project Title</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Details</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project Details</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {filteredProjects.map((project) => (
-                                    <tr key={project._id} className="hover:bg-gray-50">
-                                        <td className="px-6 py-4">
-                                            <div className="font-medium text-gray-900">{project.title}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <button
-                                                onClick={() => openStudentsModal(project)}
-                                                className="flex items-center text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-3 py-1 rounded-md transition-colors"
-                                            >
-                                                <FaUsers className="mr-2" /> View Members ({project.students.length})
-                                            </button>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            {project.documentLink ? (
-                                                <a href={project.documentLink} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 flex items-center gap-1" title="Open Document">
-                                                    <FaFileAlt size={18} /> <span className="text-sm border-b border-transparent hover:border-indigo-800">Open</span>
-                                                </a>
-                                            ) : (
-                                                <span className="text-gray-300">-</span>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                                {filteredProjects.length === 0 && (
-                                    <tr>
-                                        <td colSpan="3" className="px-6 py-4 text-center text-gray-500">No projects found</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                    {/* Grouped Projects */}
+                    {sortedBatches.length === 0 ? (
+                        <div className="bg-white rounded-lg shadow-md p-6 text-center text-gray-500">
+                            No projects found
+                        </div>
+                    ) : (
+                        sortedBatches.map(batchName => (
+                            <div key={batchName} className="mb-8">
+                                <div className="flex items-center mb-4">
+                                    <FaFolder className="text-indigo-500 text-2xl mr-3" />
+                                    <h2 className="text-xl font-bold text-gray-800">Batch {batchName}</h2>
+                                </div>
+                                <div className="bg-white rounded-lg shadow-md overflow-x-auto">
+                                    <table className="min-w-full divide-y divide-gray-200">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project Title</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Details</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {groupedProjects[batchName].map((project) => (
+                                                <tr key={project._id} className="hover:bg-gray-50">
+                                                    <td className="px-6 py-4">
+                                                        <div className="font-medium text-gray-900">{project.title}</div>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <button
+                                                            onClick={() => openStudentsModal(project)}
+                                                            className="flex items-center text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-3 py-1 rounded-md transition-colors"
+                                                        >
+                                                            <FaUsers className="mr-2" /> View Members ({project.students.length})
+                                                        </button>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        {project.documentLink ? (
+                                                            <a href={project.documentLink} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 flex items-center gap-1" title="Open Document">
+                                                                <FaFileAlt size={18} /> <span className="text-sm border-b border-transparent hover:border-indigo-800">Open</span>
+                                                            </a>
+                                                        ) : (
+                                                            <span className="text-gray-300">-</span>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
 
