@@ -40,7 +40,7 @@ const AdminDashboard = () => {
                                 <div>
                                     <h3 className="text-gray-500 text-sm font-medium">Active Courses</h3>
                                     <p className="text-3xl font-bold text-gray-800 mt-2">
-                                        {[...new Set(students.map(s => s.course))].length}
+                                        {[...new Set(students.map(s => (s.course || '').trim().toUpperCase()).filter(c => c !== ''))].length}
                                     </p>
                                 </div>
                                 <FaBook className="text-green-500 text-4xl opacity-50" />
